@@ -1,2 +1,4 @@
 # snoocord
-A library to connect with the v10 gateway of the Discord API.
+
+Snoocord is a library to connect with the Discord API gateway. Currently supporting the v10 gateway.
+
