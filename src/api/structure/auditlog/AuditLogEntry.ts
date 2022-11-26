@@ -1,4 +1,7 @@
 import { snowflake } from "../snowflake.ts";
+import { AuditLogChange } from "./AuditLogChange.ts";
+import { AuditLogEvent } from "./AuditLogEvent.ts";
+import { OptionalAuditEntryInfo } from "./OptionalAuditEntryInfo.ts";
 
 /**
  * https://discord.com/developers/docs/resources/audit-log#audit-log-entry-object

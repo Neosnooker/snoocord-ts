@@ -1,12 +1,12 @@
 /**
  * https://discord.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events
- * 
+ *
  * The table below lists audit log events and values (the `action_type` field) that your app may receive.
  *
  * The **Object Changed** column notes which object's values may be included in the entry. Though there are exceptions, possible keys in the `changes` array typically correspond to the object's fields. The descriptions and types for those fields can be found in the linked documentation for the object.
  *
  * If no object is noted, there won't be a `changes` array in the entry, though other fields like the `target_id` still exist and many have fields in the [`options` array](https://discord.com/developers/docs/resources/audit-log#audit-log-entry-object-optional-audit-entry-info).
- * 
+ *
  * \* Object has exception(s) to available keys. See the [exceptions](https://discord.com/developers/docs/resources/audit-log#audit-log-change-object-audit-log-change-exceptions) section below for details.
  */
 export enum AuditLogEvent {
