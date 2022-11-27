@@ -5,7 +5,7 @@ import { snowflake } from "../snowflake.ts";
  *
  * Additional data used when an action is executed. Different fields are relevant based on the value of [action type](https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-action-object-action-types).
  *
- * * Maximum of 2419200 seconds (4 weeks)
+ * \* Maximum of 2419200 seconds (4 weeks)
  */
 export interface ActionMetadata {
   /**

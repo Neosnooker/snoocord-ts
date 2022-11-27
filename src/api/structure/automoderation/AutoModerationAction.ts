@@ -6,7 +6,7 @@ import { ActionType } from "./ActionType.ts";
  *
  * An action which will execute whenever a rule is triggered.
  *
- * * Can be omitted based on `type`. See the `Associated Action Types` column in [action metadata](https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-action-object-action-metadata) to understand which `type` values require `metadata` to be set.
+ * \* Can be omitted based on `type`. See the `Associated Action Types` column in [action metadata](https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-action-object-action-metadata) to understand which `type` values require `metadata` to be set.
  */
 export interface AutoModerationAction {
   /**

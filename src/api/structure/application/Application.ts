@@ -47,7 +47,7 @@ export interface Application {
   owner?: Partial<null /* TODO: set to User */>;
   /**
    * @deprecated
-   * **deprecated and will be removed in v11.** An empty string.
+   * \**deprecated and will be removed in v11.** An empty string.
    */
   summary: string;
   /**

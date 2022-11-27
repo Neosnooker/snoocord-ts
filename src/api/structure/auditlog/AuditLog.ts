@@ -1,4 +1,5 @@
 import { AutoModerationRule } from "../automoderation/AutoModerationRule.ts";
+import { User } from "../user/User.ts";
 import { AuditLogEntry } from "./AuditLogEntry.ts";
 
 /**

@@ -1,7 +1,7 @@
 /**
  * https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-action-object-action-types
  *
- * * A `TIMEOUT` action can only be set up for `KEYWORD` and `MENTION_SPAM` rules. The `MODERATE_MEMBERS` permission is required to use the `TIMEOUT` action type.
+ * \* A `TIMEOUT` action can only be set up for `KEYWORD` and `MENTION_SPAM` rules. The `MODERATE_MEMBERS` permission is required to use the `TIMEOUT` action type.
  */
 export enum ActionType {
   /**

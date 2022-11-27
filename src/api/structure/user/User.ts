@@ -1,4 +1,5 @@
 import { snowflake } from "../snowflake.ts";
+import { PremiumType } from "./PremiumType.ts";
 
 /**
  * https://discord.com/developers/docs/resources/user#user-object
@@ -90,7 +91,7 @@ export interface User {
    * the [type of Nitro subscription](https://discord.com/developers/docs/resources/user#user-object-premium-types) on a user's account
    * + Required OAuth2 Scope: identify
    */
-  premium_type?: number;
+  premium_type?: PremiumType;
   /**
    * the public [flags](https://discord.com/developers/docs/resources/user#user-object-user-flags) on a user's account
    * + Required OAuth2 Scope: identify
