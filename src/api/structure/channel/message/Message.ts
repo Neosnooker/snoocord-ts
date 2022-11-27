@@ -3,6 +3,8 @@ import { snowflake } from "../../snowflake.ts";
 import { User } from "../../user/User.ts";
 import { Channel } from "../Channel.ts";
 import { MessageActivity } from "./MessageActivity.ts";
+import { MessageReference } from "./MessageReference.ts";
+import { Reaction } from "./Reaction.ts";
 
 /**
  * https://discord.com/developers/docs/resources/channel#message-object-message-structure

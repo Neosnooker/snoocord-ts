@@ -1,6 +1,11 @@
 import { snowflake } from "../snowflake.ts";
 import { User } from "../user/User.ts";
 import { ChannelType } from "./ChannelType.ts";
+import { DefaultReaction } from "./DefaultReaction.ts";
+import { ForumTag } from "./ForumTag.ts";
+import { Overwrite } from "./Overwrite.ts";
+import { ThreadMember } from "./ThreadMember.ts";
+import { ThreadMetadata } from "./ThreadMetadata.ts";
 import { VideoQualityMode } from "./VideoQualityMode.ts";
 
 /**
@@ -127,7 +132,7 @@ export interface Channel {
   /**
    * the set of tags that can be used in a `GUILD_FORUM` channel
    */
-  available_tags?: Tag[];
+  available_tags?: ForumTag[];
   /**
    * the IDs of the set of tags that have been applied to a thread in a `GUILD_FORUM` channel
    */
