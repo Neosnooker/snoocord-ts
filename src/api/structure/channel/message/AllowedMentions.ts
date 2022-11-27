@@ -3,9 +3,9 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
 
 /**
  * https://discord.com/developers/docs/resources/channel#allowed-mentions-object-allowed-mentions-structure
- * 
+ *
  * The allowed mention field allows for more granular control over mentions without various hacks to the message content. This will always validate against message content to avoid phantom pings (e.g. to ping everyone, you must still have `@everyone` in the message content), and check against user/bot permissions.
- * 
+ *
  * ### Allowed Mentions Reference
  *
  * Due to the complexity of possibilities, we have included a set of examples and behavior for the allowed mentions field.
@@ -21,7 +21,7 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  * ```
  *
  * To suppress all mentions in a message use:
- * 
+ *
  * ```json
  * {
  * 	"content": "@everyone hi there, <@&123>",
@@ -30,11 +30,11 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  * 	}
  * }
  * ```
- * 
+ *
  * This will suppress all mentions in the message (no @everyone or user mention).
  *
  * The `parse` field is mutually exclusive with the other fields. In the example below, we would ping users `123` and role `124`, but not @everyone. Note that passing a `Falsy` value ([], null) into the "users" field does not trigger a validation error.
- * 
+ *
  * ```json
  * {
  *  "content": "@everyone <@123> <@&124>",
@@ -44,7 +44,7 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  *  }
  * }
  * ```
- * 
+ *
  * In the next example, we would ping @everyone, (and also users 123 and 124 if they suppressed @everyone mentions), but we would not ping any roles.
  *
  * ```json
@@ -83,22 +83,22 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  * ```
  */
 export interface AllowedMentions {
-	/**
-	 * An array of [allowed mention types](https://discord.com/developers/docs/resources/channel#allowed-mentions-object-allowed-mention-types) to parse from the content.
-	 */
-	parse: AllowedMentionTypes[];
-	/**
-	 * Array of role_ids to mention (Max size of 100)
-	 */
-	roles: snowflake[];
-	/**
-	 * Array of user_ids to mention (Max size of 100)
-	 */
-	users: snowflake[];
-	/**
-	 * For replies, whether to mention the author of the message being replied to (default false)
-	 */
-	replied_user: boolean;
+  /**
+   * An array of [allowed mention types](https://discord.com/developers/docs/resources/channel#allowed-mentions-object-allowed-mention-types) to parse from the content.
+   */
+  parse: AllowedMentionTypes[];
+  /**
+   * Array of role_ids to mention (Max size of 100)
+   */
+  roles: snowflake[];
+  /**
+   * Array of user_ids to mention (Max size of 100)
+   */
+  users: snowflake[];
+  /**
+   * For replies, whether to mention the author of the message being replied to (default false)
+   */
+  replied_user: boolean;
 }
 
 // TODO: implement an internal check for invalid allowedmentions

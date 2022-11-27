@@ -1,5 +1,6 @@
 import { InstallParams } from "./InstallParams.ts";
 import { snowflake } from "../snowflake.ts";
+import { User } from "../user/User.ts";
 
 /**
  * https://discord.com/developers/docs/resources/application#application-object-application-structure
@@ -44,7 +45,7 @@ export interface Application {
   /**
    * partial user object containing info on the owner of the application
    */
-  owner?: Partial<null /* TODO: set to User */>;
+  owner?: Partial<User>;
   /**
    * @deprecated
    * \**deprecated and will be removed in v11.** An empty string.
