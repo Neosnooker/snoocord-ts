@@ -1,3 +1,4 @@
+import { GuildMember } from "../guild/GuildMember.ts";
 import { snowflake } from "../snowflake.ts";
 
 /**

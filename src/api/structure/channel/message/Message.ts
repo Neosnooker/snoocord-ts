@@ -1,5 +1,7 @@
 import { Application } from "../../application/Application.ts";
+import { MessageComponent } from "../../messagecomponent/MessageComponent.ts";
 import { snowflake } from "../../snowflake.ts";
+import { Sticker } from "../../sticker/Sticker.ts";
 import { User } from "../../user/User.ts";
 import { Channel } from "../Channel.ts";
 import { Attachment } from "./Attachment.ts";

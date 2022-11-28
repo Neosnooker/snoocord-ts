@@ -1,5 +1,7 @@
 import { AutoModerationRule } from "../automoderation/AutoModerationRule.ts";
 import { Channel } from "../channel/Channel.ts";
+import { Integration } from "../guild/integration/Integration.ts";
+import { GuildScheduledEvent } from "../guildscheduledevent/GuildScheduledEvent.ts";
 import { User } from "../user/User.ts";
 import { Webhook } from "../webhook/Webhook.ts";
 import { AuditLogEntry } from "./AuditLogEntry.ts";

@@ -1,3 +1,4 @@
+import { Guild } from "../guild/Guild.ts";
 import { snowflake } from "../snowflake.ts";
 import { User } from "../user/User.ts";
 

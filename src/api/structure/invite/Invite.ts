@@ -1,7 +1,9 @@
 import { Application } from "../application/Application.ts";
 import { Channel } from "../channel/Channel.ts";
+import { Guild } from "../guild/Guild.ts";
 import { GuildScheduledEvent } from "../guildscheduledevent/GuildScheduledEvent.ts";
 import { User } from "../user/User.ts";
+import { InviteStageInstance } from "./InviteStageInstance.ts";
 import { InviteTargetType } from "./InviteTargetType.ts";
 
 /**

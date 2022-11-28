@@ -37,11 +37,11 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  *
  * ```json
  * {
- *  "content": "@everyone <@123> <@&124>",
- *  "allowed_mentions": {
- *    "parse": ["users", "roles"],
- *    "users": []
- *  }
+ *   "content": "@everyone <@123> <@&124>",
+ *   "allowed_mentions": {
+ *      "parse": ["users", "roles"],
+ *      "users": []
+ *   }
  * }
  * ```
  *
@@ -49,11 +49,11 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  *
  * ```json
  * {
- *  "content": "@everyone <@123> <@124> <@125> <@&200>",
- *  "allowed_mentions": {
- *    "parse": ["everyone"],
- *    "users": ["123", "124"]
- *  }
+ *   "content": "@everyone <@123> <@124> <@125> <@&200>",
+ *   "allowed_mentions": {
+ *      "parse": ["everyone"],
+ *      "users": ["123", "124"]
+ *   }
  * }
  * ```
  *
@@ -61,11 +61,11 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  *
  * ```json
  * {
- *  "content": "@everyone <@123> <@124> <@125> <@&200>",
- *  "allowed_mentions": {
- *    "parse": ["users"],
- *    "users": ["123", "124"]
- *  }
+ *   "content": "@everyone <@123> <@124> <@125> <@&200>",
+ *   "allowed_mentions": {
+ *      "parse": ["users"],
+ *      "users": ["123", "124"]
+ *   }
  * }
  * ```
  *
@@ -75,10 +75,10 @@ import { AllowedMentionTypes } from "./AllowedMentionTypes.ts";
  *
  * ```json
  * {
- *  "content": "<@123> Time for some memes.",
- *  "allowed_mentions": {
- *    "users": ["123", "125"]
- *  }
+ *   "content": "<@123> Time for some memes.",
+ *   "allowed_mentions": {
+ *      "users": ["123", "125"]
+ *   }
  * }
  * ```
  */

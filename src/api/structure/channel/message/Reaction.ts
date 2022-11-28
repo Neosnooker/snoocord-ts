@@ -1,3 +1,5 @@
+import { Emoji } from "../../emoji/Emoji.ts";
+
 /**
  * https://discord.com/developers/docs/resources/channel#reaction-object-reaction-structure
  */
