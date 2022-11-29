@@ -1,3 +1,12 @@
+export type { ApplicationCommand } from "./applicationcommand/ApplicationCommand.ts";
+export type { ApplicationCommandOption } from "./applicationcommand/ApplicationCommandOption.ts";
+export type { ApplicationCommandOptionChoice } from "./applicationcommand/ApplicationCommandOptionChoice.ts";
+export { ApplicationCommandOptionType } from "./applicationcommand/ApplicationCommandOptionType.ts";
+export { ApplicationCommandType } from "./applicationcommand/ApplicationCommandType.ts";
+export type { ApplicationCommandData } from "./interaction/ApplicationCommandData.ts";
+export type { ApplicationCommandInteractionDataOption } from "./interaction/ApplicationCommandInteractionDataOption.ts";
+export type { MessageComponentData } from "./interaction/MessageComponentData.ts";
+export type { MessageComponent } from "./messagecomponent/MessageComponent.ts";
 export type { Application } from "./application/Application.ts";
 export { ApplicationFlags } from "./application/ApplicationFlags.ts";
 export type { InstallParams } from "./application/InstallParams.ts";

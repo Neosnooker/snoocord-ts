@@ -1,7 +1,9 @@
 import { Application } from "../../application/Application.ts";
+import { MessageInteraction } from "../../interaction/MessageInteraction.ts";
 import { MessageComponent } from "../../messagecomponent/MessageComponent.ts";
 import { snowflake } from "../../snowflake.ts";
 import { Sticker } from "../../sticker/Sticker.ts";
+import { StickerItem } from "../../sticker/StickerItem.ts";
 import { User } from "../../user/User.ts";
 import { Channel } from "../Channel.ts";
 import { Attachment } from "./Attachment.ts";
@@ -140,7 +142,7 @@ export interface Message {
   /**
    * sent if the message contains stickers
    */
-  sticker_items?: MessageStickerItem[];
+  sticker_items?: StickerItem[];
   /**
    * @deprecated
    * **Deprecated** the stickers sent with the message

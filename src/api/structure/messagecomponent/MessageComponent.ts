@@ -1,4 +1,6 @@
-import { Button, SelectMenu, TextInput } from "../export.ts";
+import { Button } from "./Button.ts";
+import { SelectMenu } from "./SelectMenu.ts";
+import { TextInput } from "./TextInput.ts";
 
 /**
  * @internal

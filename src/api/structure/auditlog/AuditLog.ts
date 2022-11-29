@@ -1,3 +1,4 @@
+import { ApplicationCommand } from "../applicationcommand/ApplicationCommand.ts";
 import { AutoModerationRule } from "../automoderation/AutoModerationRule.ts";
 import { Channel } from "../channel/Channel.ts";
 import { Integration } from "../guild/integration/Integration.ts";
