@@ -1,4 +1,5 @@
 import { ClientConfiguration } from "../ClientConfiguration.ts";
+import { snoocord } from "../SharedConstants.ts";
 import { HTTPRequestError } from "./HTTPRequestError.ts";
 import { RequestMethod } from "./RequestMethod.ts";
 
@@ -14,37 +15,30 @@ export class HTTPClient {
       defaultRequestInit: {
         "headers": {
           "User-Agent":
-            "DiscordBot (https://github.com/Neosnooker/snoocord, unknown) snoocord/nightly",
+            `DiscordBot (${snoocord.repositoryUrl}, ${snoocord.version})`,
           "Authorization": `Bot ${configuration.botToken}`,
         },
       },
     };
   }
 
-  private getQueryStringFromRecord(record: Record<string, unknown>) {
-    return "?" +
-      Object.entries(record).map((value) =>
-        `${value[0]}=${
-          encodeURIComponent(
-            typeof value[1] == "object"
-              ? JSON.stringify(value[1])
-              : String(value[1]),
-          )
-        }`
-      ).join("&");
-  }
-
-  async sendRequestToDiscordEndpoint<BodyType, ExpectedReturnType>(
-    endpoint: string,
-    method: RequestMethod,
-    body: BodyType,
-    queryStringParams?: Record<string, unknown>,
+  async sendRequestToDiscordEndpoint<ExpectedReturnType>(
+    init: {
+      endpoint: string;
+      method: RequestMethod;
+      additionalParameters?: Record<string | number, unknown>;
+      additionalHeaders?: Record<string, unknown>;
+    },
   ) {
+    const { endpoint, method, additionalParameters, additionalHeaders } = init;
+
     const result = await fetch(
-      HTTPClient.DiscordUrl + endpoint +
-        ((queryStringParams &&
-          this.getQueryStringFromRecord(queryStringParams)) ?? ""),
-      Object.assign(this.configuration.defaultRequestInit, { method, body }),
+      HTTPClient.DiscordUrl + endpoint,
+      Object.assign(this.configuration.defaultRequestInit, {
+        method,
+        "body": additionalParameters,
+        "headers": additionalHeaders ?? {},
+      }),
     );
 
     if (result.status >= 200 && result.status < 300) {
