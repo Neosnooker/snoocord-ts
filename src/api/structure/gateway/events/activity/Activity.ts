@@ -1,7 +1,10 @@
 import { ActivityEmoji } from "./ActivityEmoji.ts";
 import { ActivityTimestamps } from "./ActivityTimestamps.ts";
-import { Button } from "../../../messagecomponent/Button.ts";
 import { snowflake } from "../../../snowflake.ts";
+import { ActivityParty } from "./ActivityParty.ts";
+import { ActivityAssets } from "./ActivityAssets.ts";
+import { ActivitySecrets } from "./ActivitySecrets.ts";
+import { ActivityButton } from "./ActivityButton.ts";
 
 /**
  * https://discord.com/developers/docs/topics/gateway-events#activity-object-activity-structure
@@ -48,15 +51,15 @@ export interface Activity {
   /**
    * Information for the current party of the player
    */
-  party?: Party;
+  party?: ActivityParty;
   /**
    * Images for the presence and their hover texts
    */
-  assets?: Assets;
+  assets?: ActivityAssets;
   /**
    * Secrets for Rich Presence joining and spectating
    */
-  secrets?: Secrets;
+  secrets?: ActivitySecrets;
   /**
    * Whether or not the activity is an instanced game session
    */
@@ -68,5 +71,5 @@ export interface Activity {
   /**
    * Custom buttons shown in the Rich Presence (max 2)
    */
-  buttons?: Button[];
+  buttons?: ActivityButton[];
 }

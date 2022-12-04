@@ -47,7 +47,6 @@ export enum GatewayIntents {
    * - STAGE_INSTANCE_DELETE
    */
   GUILDS = (1 << 0),
-
   /**
    * - GUILD_MEMBER_ADD
    * - GUILD_MEMBER_UPDATE
@@ -56,19 +55,16 @@ export enum GatewayIntents {
    * **
    */
   GUILD_MEMBERS = (1 << 1),
-
   /**
    * - GUILD_BAN_ADD
    * - GUILD_BAN_REMOVE
    */
   GUILD_BANS = (1 << 2),
-
   /**
    * - GUILD_EMOJIS_UPDATE
    * - GUILD_STICKERS_UPDATE
    */
   GUILD_EMOJIS_AND_STICKERS = (1 << 3),
-
   /**
    * - GUILD_INTEGRATIONS_UPDATE
    * - INTEGRATION_CREATE
@@ -76,29 +72,24 @@ export enum GatewayIntents {
    * - INTEGRATION_DELETE
    */
   GUILD_INTEGRATIONS = (1 << 4),
-
   /**
    * - WEBHOOKS_UPDATE
    */
   GUILD_WEBHOOKS = (1 << 5),
-
   /**
    * - INVITE_CREATE
    * - INVITE_DELETE
    */
   GUILD_INVITES = (1 << 6),
-
   /**
    * - VOICE_STATE_UPDATE
    */
   GUILD_VOICE_STATES = (1 << 7),
-
   /**
    * - PRESENCE_UPDATE
    * **
    */
   GUILD_PRESENCES = (1 << 8),
-
   /**
    * - MESSAGE_CREATE
    * - MESSAGE_UPDATE
@@ -106,7 +97,6 @@ export enum GatewayIntents {
    * - MESSAGE_DELETE_BULK
    */
   GUILD_MESSAGES = (1 << 9),
-
   /**
    * - MESSAGE_REACTION_ADD
    * - MESSAGE_REACTION_REMOVE
@@ -114,12 +104,10 @@ export enum GatewayIntents {
    * - MESSAGE_REACTION_REMOVE_EMOJI
    */
   GUILD_MESSAGE_REACTIONS = (1 << 10),
-
   /**
    * - TYPING_START
    */
   GUILD_MESSAGE_TYPING = (1 << 11),
-
   /**
    * - MESSAGE_CREATE
    * - MESSAGE_UPDATE
@@ -127,7 +115,6 @@ export enum GatewayIntents {
    * - CHANNEL_PINS_UPDATE
    */
   DIRECT_MESSAGES = (1 << 12),
-
   /**
    * - MESSAGE_REACTION_ADD
    * - MESSAGE_REACTION_REMOVE
@@ -135,17 +122,14 @@ export enum GatewayIntents {
    * - MESSAGE_REACTION_REMOVE_EMOJI
    */
   DIRECT_MESSAGE_REACTIONS = (1 << 13),
-
   /**
    * - TYPING_START
    */
   DIRECT_MESSAGE_TYPING = 1 << 14,
-
   /**
    * ***
    */
   MESSAGE_CONTENT = 1 << 15,
-
   /**
    * - GUILD_SCHEDULED_EVENT_CREATE
    * - GUILD_SCHEDULED_EVENT_UPDATE
@@ -154,14 +138,12 @@ export enum GatewayIntents {
    * - GUILD_SCHEDULED_EVENT_USER_REMOVE
    */
   GUILD_SCHEDULED_EVENTS = 1 << 16,
-
   /**
    * - AUTO_MODERATION_RULE_CREATE
    * - AUTO_MODERATION_RULE_UPDATE
    * - AUTO_MODERATION_RULE_DELETE
    */
   AUTO_MODERATION_CONFIGURATION = (1 << 20),
-
   /**
    * - AUTO_MODERATION_ACTION_EXECUTION
    */

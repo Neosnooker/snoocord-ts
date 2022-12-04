@@ -15,7 +15,7 @@ export interface GatewayEventPayload {
   /**
    * Event data
    */
-  d: Record<string | number, unknown> | null;
+  d: Record<string | number, unknown> | number | boolean | null;
   /**
    * Sequence number of event used for [resuming sessions](https://discord.com/developers/docs/topics/gateway#resuming) and [heartbeating](https://discord.com/developers/docs/topics/gateway#sending-heartbeats)
    */

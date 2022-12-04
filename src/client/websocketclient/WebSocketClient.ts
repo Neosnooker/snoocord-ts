@@ -1,23 +1,22 @@
+import {
+  GatewayPresenceUpdate,
+  HelloStructure,
+} from "../../api/structure/export.ts";
 import { GatewayEventPayload } from "../../api/structure/gateway/events/GatewayEventPayload.ts";
-import { IdentifyStructure } from "../../api/structure/gateway/events/IdentifyStructure.ts";
+import { InvalidSessionStructure } from "../../api/structure/gateway/events/InvalidSessionStructure.ts";
+// import { HelloStructure } from "../../api/structure/gateway/events/HelloStructure.ts";
 import { GatewayOpcode } from "../../api/structure/gateway/GatewayOpcode.ts";
-import { HelloPayload } from "../../api/structure/gateway/payloaddata/HelloPayload.ts";
 import { ClientConfiguration } from "../ClientConfiguration.ts";
 import { discordUrls } from "../SharedConstants.ts";
 
 export class WebSocketClient {
   configuration;
-  ws: WebSocket | undefined;
-  otherData: {
+  ws?: WebSocket;
+  additionalData: {
     heartbeatInterval?: number;
     seq?: number;
-  } = {};
-  heartbeatManager = {
-    timeout: undefined as (number | undefined),
-    destroy: () => {
-      const timeout = this.heartbeatManager.timeout;
-      if (timeout) clearTimeout(timeout);
-    },
+    sessionId?: number;
+    resumeGatewayUrl?: string;
   };
 
   constructor(configuration: ClientConfiguration) {
@@ -25,73 +24,31 @@ export class WebSocketClient {
       botToken: configuration.botToken,
       intents: configuration.intents,
     };
+    this.additionalData = {
+      heartbeatInterval: undefined,
+      seq: undefined,
+      sessionId: undefined,
+      resumeGatewayUrl: undefined,
+    };
   }
 
-  openConnection() {
-    this.ws = new WebSocket(discordUrls.wsGateway);
-    // this.ws.addEventListener("error", (error) => void this.onGatewayError(error));
-    this.ws.addEventListener(
-      "message",
-      (message) => void this.onGatewayMessage(message),
-    );
-    this.ws.addEventListener(
-      "close",
-      (event) => void this.onGatewayClose(event),
-    );
-  }
+  /****************************************/
 
-  closeConnection(code: 1000 | 1001 = 1000) {
-    this.ws?.close(code);
-    this.ws = undefined;
-  }
-
-  sendPayload(
-    payload: Partial<GatewayEventPayload> & Pick<GatewayEventPayload, "op">,
-  ) {
-    console.debug("payload sent: ", payload);
-    if (this.ws?.readyState == this.ws?.OPEN) {
-      this.ws!.send(JSON.stringify(Object.assign({ d: null }, payload)));
-    }
-  }
-
-  onGatewayClose(event: CloseEvent) {
-    console.log(event.code);
-  }
-
-  onGatewayMessage(messageEvent: MessageEvent<unknown>) {
-    const data = JSON.parse(messageEvent.data as string) as GatewayEventPayload;
-    console.debug(data);
-    switch (data.op) {
-      case GatewayOpcode.DISPATCH:
-        console.debug("dispatch");
-        break;
-      case GatewayOpcode.HEARTBEAT:
-        this.handleHeartbeating();
-        break;
-      case GatewayOpcode.HELLO:
-        {
-          const d = (data.d as unknown) as HelloPayload;
-          this.otherData = {
-            heartbeatInterval: d.heartbeat_interval,
-          };
-
-          this.handleHeartbeating();
-          this.identify();
-        }
-        break;
-      case GatewayOpcode.HEARTBEAT_ACK:
-        console.debug("pong!");
-        break;
-    }
+  heartbeat() {
+    this.sendPayload({
+      "op": GatewayOpcode.HEARTBEAT,
+      "d": this.additionalData.seq || null,
+    });
   }
 
   identify() {
     this.sendPayload({
-      op: GatewayOpcode.IDENTIFY,
-      d: {
-        token: this.configuration.botToken,
-        intents: this.configuration.intents,
-        properties: {
+      "op": GatewayOpcode.IDENTIFY,
+      // TODO: use IdentifyStructure type
+      "d": {
+        "token": this.configuration.botToken,
+        "intents": this.configuration.intents,
+        "properties": {
           "os": Deno.build.os,
           "browser": "snoocord",
           "device": "snoocord",
@@ -100,20 +57,193 @@ export class WebSocketClient {
     });
   }
 
-  handleHeartbeating() {
-    const sendHeartbeat = () =>
-      this.sendPayload({
-        "op": GatewayOpcode.HEARTBEAT,
-        "s": this.otherData.seq || null,
-      });
+  updatePresence(newPresence?: GatewayPresenceUpdate) {
+    throw new Error("Unimplemented method.");
+  }
 
+  updateVoiceState(voiceState?: undefined) {
+    throw new Error("Unimplemented method.");
+  }
+
+  resume(info: {
+    sessionId: number;
+    seq: number;
+  }) {
+    this.sendPayload({
+      "op": GatewayOpcode.RESUME,
+      "d": {
+        "token": this.configuration.botToken,
+        "session_id": info.sessionId,
+        "seq": info.seq,
+      },
+    });
+  }
+
+  requestGuildMember() {
+    throw new Error("Unimplemented method.");
+  }
+
+  /****************************************/
+
+  heartbeatInfo = {
+    timeout: undefined as (number | undefined),
+    ceaseHeartbeating: () => {
+      const x = this.heartbeatInfo.timeout;
+      if (x) clearTimeout(x);
+    },
+    missedCount: 0,
+  };
+
+  beginHeartbeating() {
     const fn = () => {
-      this.heartbeatManager.timeout = setTimeout(() => {
-        sendHeartbeat();
+      this.heartbeatInfo.timeout = setTimeout(() => {
+        if (this.heartbeatInfo.missedCount > -3) {
+          --this.heartbeatInfo.missedCount;
+          this.heartbeat();
+        } else {
+          this.closeConnection();
+          this.openConnection();
+        }
+
         fn();
-      }, this.otherData.heartbeatInterval! * Math.random());
+      }, this.additionalData.heartbeatInterval! * Math.random());
     };
 
     fn();
+  }
+
+  /****************************************/
+
+  map: Record<string, ((data: Record<string, unknown>) => void)[]> = {};
+
+  // registerEventListener<ValidEventName>(eventName: ValidEventName, listener: (type: EventType<ValidEventName>) => unknown) {
+  registerEventListener(eventName: string, listener: (data: Record<string, unknown>) => unknown) {
+    if (this.map[eventName]) this.map[eventName].push(listener);
+    else this.map[eventName] = [listener];
+  }
+
+  handleDispatch(eventName: string, data: Record<string, unknown>) {
+    (this.map[eventName] ?? []).forEach((fn) => fn(data));
+  }
+
+  /****************************************/
+
+  handleHeartbeat() {
+    this.heartbeat();
+  }
+
+  handleReconnect() {
+    this.closeConnection();
+    this.openConnection(this.additionalData.resumeGatewayUrl);
+  }
+
+  handleInvalidSession(data: boolean) {
+    if (data) {
+      this.handleReconnect();
+    } else {
+      // Clear resume information
+      this.additionalData.resumeGatewayUrl =
+        this.additionalData.seq =
+        this
+          .additionalData.sessionId =
+          undefined;
+      this.closeConnection();
+      this.openConnection();
+    }
+  }
+
+  handleHello(data: HelloStructure) {
+    this.additionalData.heartbeatInterval = data.heartbeat_interval;
+    this.beginHeartbeating();
+    this.identifyOrResume();
+  }
+
+  handleHeartbeatAck() {
+    this.heartbeatInfo.missedCount = 0;
+  }
+
+  /****************************************/
+
+  pendingResume = false;
+
+  identifyOrResume() {
+    if (
+      this.additionalData.sessionId && this.additionalData.resumeGatewayUrl &&
+      this.additionalData.seq
+    ) {
+      this.resume({
+        sessionId: this.additionalData.sessionId,
+        seq: this.additionalData.seq,
+      });
+    } else {
+      this.identify();
+    }
+  }
+
+  /****************************************/
+
+  // deno-lint-ignore no-explicit-any
+  onGatewayMessage(event: MessageEvent<any>) {
+    const data = JSON.parse(event.data) as GatewayEventPayload;
+
+    console.debug(data.op, data.d);
+
+    switch (data.op) {
+      case GatewayOpcode.DISPATCH:
+        this.handleDispatch(data.t!, data.d! as Record<string, unknown>);
+        break;
+      case GatewayOpcode.HEARTBEAT:
+        this.handleHeartbeat();
+        break;
+      case GatewayOpcode.RECONNECT:
+        this.handleReconnect();
+        break;
+      case GatewayOpcode.INVALID_SESSION:
+        this.handleInvalidSession(data.d as InvalidSessionStructure);
+        break;
+      case GatewayOpcode.HELLO:
+        this.handleHello(data.d as unknown as HelloStructure);
+        break;
+      case GatewayOpcode.HEARTBEAT_ACK:
+        this.handleHeartbeatAck();
+        break;
+    }
+  }
+
+  /****************************************/
+
+  openConnection(url?: string) {
+    this.ws = new WebSocket(url ?? discordUrls.wsGateway);
+
+    this.ws.addEventListener(
+      "message",
+      (message) => void this.onGatewayMessage(message),
+    );
+    // this.ws.addEventListener(
+    //   "close",
+    //   (event) => void this.onGatewayClose(event),
+    // );
+  }
+
+  closeConnection(code = 1000) {
+    if (
+      this.ws?.readyState !== this.ws?.CLOSED ||
+      this.ws?.readyState !== this.ws?.CLOSING
+    ) {
+      this.ws?.close(code);
+    }
+    this.heartbeatInfo.ceaseHeartbeating();
+    this.ws = undefined;
+  }
+
+  /****************************************/
+
+  sendPayload(
+    payload: Partial<GatewayEventPayload> & Pick<GatewayEventPayload, "op">,
+  ) {
+    console.debug('payload sent:', payload)
+    if (this.ws?.readyState == this.ws?.OPEN) {
+      this.ws!.send(JSON.stringify(Object.assign({ d: null }, payload)));
+    }
   }
 }

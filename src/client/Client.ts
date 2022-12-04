@@ -29,7 +29,15 @@ export class Client {
     this.clientLocked = false;
   }
 
+  listenToEvent(eventName: string, callback: (type: Record<string, unknown>) => void) {
+    this.wsClient.registerEventListener(eventName, callback);
+  }
+
   get httpClientInstance() {
     return this.httpClient;
+  }
+
+  get wsClientInstance() {
+    return this.wsClient;
   }
 }
