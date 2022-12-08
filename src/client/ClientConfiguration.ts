@@ -4,5 +4,4 @@
 export interface ClientConfiguration {
   botToken: string;
   intents: number;
-  cacheDirectory: string;
 }

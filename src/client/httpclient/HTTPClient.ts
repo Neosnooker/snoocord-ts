@@ -30,23 +30,29 @@ export class HTTPClient {
       additionalHeaders?: Record<string, unknown>;
     },
   ) {
-    const { endpoint, method, additionalParameters, additionalHeaders } = init;
+    const url = HTTPClient.DiscordUrl + init.endpoint;
+    const requestInit: RequestInit = {
+      "method": init.method,
+      "headers": Object.assign(
+        this.configuration.defaultRequestInit.headers!,
+        {
+          "Content-Type": init.method == RequestMethod.POST
+            ? "application/json"
+            : undefined,
+          ...init.additionalHeaders,
+        },
+      ),
+      "body": JSON.stringify(init.additionalParameters),
+    };
 
-    const result = await fetch(
-      HTTPClient.DiscordUrl + endpoint,
-      Object.assign(this.configuration.defaultRequestInit, {
-        method,
-        "body": additionalParameters,
-        "headers": additionalHeaders ?? {},
-      }),
-    );
+    const result = await fetch(url, requestInit!);
 
     if (result.status >= 200 && result.status < 300) {
       return (await result.json()) as ExpectedReturnType;
     } else {
-      return new HTTPRequestError({
-        endpoint: endpoint,
-        method: method,
+      throw new HTTPRequestError({
+        endpoint: init.endpoint,
+        method: init.method,
         statusCode: result.status,
         statusText: result.statusText,
       });

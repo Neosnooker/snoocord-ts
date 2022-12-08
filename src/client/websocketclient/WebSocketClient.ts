@@ -57,11 +57,11 @@ export class WebSocketClient {
     });
   }
 
-  updatePresence(newPresence?: GatewayPresenceUpdate) {
+  updatePresence(_newPresence?: GatewayPresenceUpdate) {
     throw new Error("Unimplemented method.");
   }
 
-  updateVoiceState(voiceState?: undefined) {
+  updateVoiceState(_voiceState?: undefined) {
     throw new Error("Unimplemented method.");
   }
 
@@ -116,8 +116,10 @@ export class WebSocketClient {
 
   map: Record<string, ((data: Record<string, unknown>) => void)[]> = {};
 
-  // registerEventListener<ValidEventName>(eventName: ValidEventName, listener: (type: EventType<ValidEventName>) => unknown) {
-  registerEventListener(eventName: string, listener: (data: Record<string, unknown>) => unknown) {
+  registerEventListener(
+    eventName: string,
+    listener: (data: Record<string, unknown>) => unknown,
+  ) {
     if (this.map[eventName]) this.map[eventName].push(listener);
     else this.map[eventName] = [listener];
   }
@@ -144,8 +146,7 @@ export class WebSocketClient {
       // Clear resume information
       this.additionalData.resumeGatewayUrl =
         this.additionalData.seq =
-        this
-          .additionalData.sessionId =
+        this.additionalData.sessionId =
           undefined;
       this.closeConnection();
       this.openConnection();
@@ -241,7 +242,7 @@ export class WebSocketClient {
   sendPayload(
     payload: Partial<GatewayEventPayload> & Pick<GatewayEventPayload, "op">,
   ) {
-    console.debug('payload sent:', payload)
+    console.debug("payload sent:", payload);
     if (this.ws?.readyState == this.ws?.OPEN) {
       this.ws!.send(JSON.stringify(Object.assign({ d: null }, payload)));
     }

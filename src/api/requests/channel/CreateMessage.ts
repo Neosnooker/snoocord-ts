@@ -1,8 +1,8 @@
 import { RequestMethod } from "../../../client/httpclient/RequestMethod.ts";
-import { AuditLog } from "../../structure/auditlog/AuditLog.ts";
 import { AllowedMentions } from "../../structure/channel/message/AllowedMentions.ts";
 import { Attachment } from "../../structure/channel/message/Attachment.ts";
 import { Embed } from "../../structure/channel/message/embed/Embed.ts";
+import { Message } from "../../structure/channel/message/Message.ts";
 import { MessageReference } from "../../structure/channel/message/MessageReference.ts";
 import { MessageComponent } from "../../structure/messagecomponent/MessageComponent.ts";
 import { snowflake } from "../../structure/snowflake.ts";
@@ -33,7 +33,7 @@ import { RequestFunctionBase } from "../RequestFunctionBase.ts";
  * #### JSON/Form Params
  * (i) When creating a message, apps must provide a value for **at least one of** `content`, `embeds`, `sticker_ids`, `components`, or `files[n]`.
  */
-export const GetGuildAuditLog: RequestFunctionBase<[snowflake], {
+export const CreateMessage: RequestFunctionBase<[snowflake], {
   content?: string;
   nonce?: number | string;
   tts?: boolean;
@@ -46,8 +46,8 @@ export const GetGuildAuditLog: RequestFunctionBase<[snowflake], {
   payload_json?: string;
   attachments?: Partial<Attachment>[];
   flags?: number;
-}, AuditLog> = (httpClient, urlParameters, additionalParameters) =>
-  httpClient.sendRequestToDiscordEndpoint<AuditLog>({
+}, Message> = (httpClient, urlParameters, additionalParameters) =>
+  httpClient.sendRequestToDiscordEndpoint<Message>({
     endpoint: `/channels/${urlParameters[0]}/messages`,
     method: RequestMethod.POST,
     additionalParameters: additionalParameters,

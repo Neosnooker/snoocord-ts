@@ -14,4 +14,4 @@ export type RequestFunctionBase<
   httpClient: HTTPClient,
   urlParameters: URLParameters,
   AdditionalParametersType: AdditionalParametersType,
-) => Promise<ExpectedReturnType | HTTPRequestError>;
+) => Promise<ExpectedReturnType>;
