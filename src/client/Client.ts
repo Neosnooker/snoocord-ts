@@ -11,7 +11,7 @@ export class Client {
   private validateConfiguration(configuration: ClientConfiguration) {
     const errors: string[] = [];
 
-    if (!configuration.botToken || typeof configuration.botToken != 'string') {
+    if (!configuration.botToken || typeof configuration.botToken != "string") {
       errors.push(ConfigurationValidationError.INVALID_BOT_TOKEN);
     }
 
