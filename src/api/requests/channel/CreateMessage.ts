@@ -32,19 +32,57 @@ import { RequestFunctionBase } from "../RequestFunctionBase.ts";
  *
  * #### JSON/Form Params
  * (i) When creating a message, apps must provide a value for **at least one of** `content`, `embeds`, `sticker_ids`, `components`, or `files[n]`.
+ * 
+ * \* At least one of `content`, `embeds`, `sticker_ids`, `components`, or `files[n]` is required.
  */
 export const CreateMessage: RequestFunctionBase<[snowflake], {
+  /**
+   * Message contents (up to 2000 characters)*
+   */
   content?: string;
+  /**
+   * Can be used to verify a message was sent (up to 25 characters). Value will appear in the [Message Create event](https://canary.discord.com/developers/docs/topics/gateway-events#message-create).
+   */
   nonce?: number | string;
+  /**
+   * `true` if this is a TTS message
+   */
   tts?: boolean;
+  /**
+   * Embedded `rich` content (up to 6000 characters)*
+   */
   embeds?: Embed[];
+  /**
+   * Allowed mentions for the message
+   */
   allowed_mentions?: AllowedMentions;
+  /**
+   * Include to make your message a reply
+   */
   message_reference?: MessageReference;
+  /**
+   * Components to include with the message*
+   */
   components?: MessageComponent[];
+  /**
+   * IDs of up to 3 [stickers](https://canary.discord.com/developers/docs/resources/sticker#sticker-object) in the server to send in the message*
+   */
   sticker_ids?: snowflake[];
-  // files?: FileContent
+  /**
+   * Contents of the file being sent. See [Uploading Files](https://canary.discord.com/developers/docs/reference#uploading-files)*
+   */
+  files?: undefined;
+  /**
+   * JSON-encoded body of non-file params, only for `multipart/form-data` requests. See [Uploading Files](https://canary.discord.com/developers/docs/reference#uploading-files)
+   */
   payload_json?: string;
+  /**
+   * Attachment objects with filename and description. See [Uploading Files](https://canary.discord.com/developers/docs/reference#uploading-files)
+   */
   attachments?: Partial<Attachment>[];
+  /**
+   * [Message flags](https://canary.discord.com/developers/docs/resources/channel#message-object-message-flags) combined as a [bitfield](https://en.wikipedia.org/wiki/Bit_field) (only `SUPPRESS_EMBEDS` can be set)
+   */
   flags?: number;
 }, Message> = (httpClient, urlParameters, additionalParameters) =>
   httpClient.sendRequestToDiscordEndpoint<Message>({

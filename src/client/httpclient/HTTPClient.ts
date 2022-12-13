@@ -2,6 +2,7 @@ import { ClientConfiguration } from "../ClientConfiguration.ts";
 import { snoocord } from "../SharedConstants.ts";
 import { HTTPRequestError } from "./HTTPRequestError.ts";
 import { RequestMethod } from "./RequestMethod.ts";
+import * as Structures from '../../api/requests/export.ts';
 
 export class HTTPClient {
   static readonly DiscordUrl = "https://discord.com/api/v10";
@@ -57,5 +58,9 @@ export class HTTPClient {
         statusText: result.statusText,
       });
     }
+  }
+
+  callEndpoint<EndpointName extends keyof typeof Structures>(endpoint: EndpointName) {
+    Structures[endpoint]
   }
 }
