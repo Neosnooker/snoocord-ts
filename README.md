@@ -1,4 +1,4 @@
-### Note: This repository is archived in favor of Snoocord implementation in golang.
+### Note: This repository is archived in favor of a potential Snoocord implementation in Rust in the future.
 
 # snoocord
 
